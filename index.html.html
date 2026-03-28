@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ═══ Primary SEO ═══ -->
+<title>WallFind — 壁紙一括検索 | Wallhaven・Reddit・Unsplash をまとめて検索</title>
+<meta name="description" content="WallFindは Wallhaven、Unsplash、Reddit、WallpaperBetter、DesktopHut、Lively Wallpaper を一度に検索できる壁紙まとめ検索サイト。4K・アニメ・風景・サイバーパンクなど豊富なタグで即検索。">
+<meta name="keywords" content="壁紙,壁紙検索,デスクトップ壁紙,Wallhaven,Unsplash,Reddit,WallpaperBetter,DesktopHut,Lively Wallpaper,4K壁紙,アニメ壁紙,ライブ壁紙,wallpaper,wallpaper search,desktop wallpaper,anime wallpaper,4k wallpaper">
+<meta name="author" content="WallFind">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://wallfind.netlify.app/">
+
+<!-- ═══ Open Graph (SNS・Slackなどでのリンクプレビュー) ═══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://wallfind.netlify.app/">
+<meta property="og:title" content="WallFind — 複数サイトの壁紙をまとめて検索">
+<meta property="og:description" content="Wallhaven・Unsplash・Reddit など6サイトを横断検索。アニメ・4K・ライブ壁紙まで豊富なタグで即検索できる無料ツール。">
+<meta property="og:image" content="https://wallfind.netlify.app/og-image.png">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:site_name" content="WallFind">
+
+<!-- ═══ Twitter Card ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WallFind — 複数サイトの壁紙をまとめて検索">
+<meta name="twitter:description" content="Wallhaven・Unsplash・Redditなど6サイトを一括検索。アニメ・4K・ライブ壁紙まで無料で探せる壁紙検索ツール。">
+<meta name="twitter:image" content="https://wallfind.netlify.app/og-image.png">
+
+<!-- ═══ 構造化データ (JSON-LD) — Googleリッチリザルト対応 ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "WallFind",
+  "url": "https://wallfind.netlify.app/",
+  "description": "Wallhaven、Unsplash、Reddit、WallpaperBetter、DesktopHut、Lively Wallpaper を横断検索できる壁紙まとめ検索ツール",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "JPY"
+  },
+  "inLanguage": ["ja", "en", "ko", "zh", "es", "fr"],
+  "keywords": "壁紙検索, wallpaper search, 4K壁紙, アニメ壁紙, デスクトップ壁紙",
+  "featureList": [
+    "複数サイト一括検索",
+    "4K・1080p・ウルトラワイド対応",
+    "アニメ・ゲーム・自然など豊富なタグ",
+    "6言語対応",
+    "ライブ壁紙対応"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "WallFind",
+  "url": "https://wallfind.netlify.app/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://wallfind.netlify.app/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<!-- ═══ パフォーマンス最適化 ═══ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://wallhaven.cc">
+<link rel="preconnect" href="https://www.reddit.com">
+<link rel="dns-prefetch" href="https://unsplash.com">
+<link rel="dns-prefetch" href="https://www.wallpaperbetter.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080a0f;
+    --surface: #0e1117;
+    --surface2: #151922;
+    --border: #1e2535;
+    --accent: #4af0c4;
+    --accent2: #ff6b6b;
+    --accent3: #ffd166;
+    --text: #e8eaf0;
+    --muted: #5a6480;
+    --glow: rgba(74, 240, 196, 0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background grid ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74,240,196,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,240,196,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Header ── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 2rem 3rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(74,240,196,0.4);
+    line-height: 1;
+  }
+
+  .logo span {
+    color: var(--text);
+    opacity: 0.4;
+  }
+
+  .tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-left: 1px solid var(--border);
+    padding-left: 1.5rem;
+  }
+
+  /* ── Hero search ── */
+  .hero {
+    position: relative;
+    z-index: 10;
+    padding: 3rem 3rem 2rem;
+    max-width: 900px;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+    color: var(--text);
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+    text-shadow: 0 0 40px rgba(74,240,196,0.3);
+  }
+
+  /* Search box */
+  .search-wrap {
+    display: flex;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    max-width: 750px;
+  }
+
+  .search-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--glow);
+  }
+
+  .search-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 1rem 1.5rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 300;
+  }
+
+  .search-wrap input::placeholder { color: var(--muted); }
+
+  .search-wrap button {
+    background: var(--accent);
+    border: none;
+    color: #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    padding: 0 2rem;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    text-transform: uppercase;
+  }
+
+  .search-wrap button:hover { opacity: 0.85; }
+
+  /* Filter bar */
+  .filters {
+    position: relative;
+    z-index: 10;
+    padding: 0 3rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .filter-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .filter-btn.active {
+    background: rgba(74,240,196,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .divider {
+    width: 1px;
+    height: 1.2rem;
+    background: var(--border);
+  }
+
+  /* Site badges */
+  .site-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+  }
+
+  .site-badge .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+
+  .site-badge[data-site="wallhaven"] { color: #7dd3fc; border-color: rgba(125,211,252,0.25); background: rgba(125,211,252,0.05); }
+  .site-badge[data-site="wallhaven"] .dot { background: #7dd3fc; }
+  .site-badge[data-site="wallpaperbetter"] { color: #c4b5fd; border-color: rgba(196,181,253,0.25); background: rgba(196,181,253,0.05); }
+  .site-badge[data-site="wallpaperbetter"] .dot { background: #c4b5fd; }
+  .site-badge[data-site="desktophut"] { color: #fda4af; border-color: rgba(253,164,175,0.25); background: rgba(253,164,175,0.05); }
+  .site-badge[data-site="desktophut"] .dot { background: #fda4af; }
+  .site-badge[data-site="lively"] { color: #86efac; border-color: rgba(134,239,172,0.25); background: rgba(134,239,172,0.05); }
+  .site-badge[data-site="lively"] .dot { background: #86efac; }
+  .site-badge[data-site="unsplash"] { color: #f9a825; border-color: rgba(249,168,37,0.25); background: rgba(249,168,37,0.05); }
+  .site-badge[data-site="unsplash"] .dot { background: #f9a825; }
+  .site-badge[data-site="reddit"] { color: #ff7043; border-color: rgba(255,112,67,0.25); background: rgba(255,112,67,0.05); }
+  .site-badge[data-site="reddit"] .dot { background: #ff7043; }
+
+  .site-badge.disabled { opacity: 0.35; filter: grayscale(1); }
+  .site-badge:hover { opacity: 0.8; transform: translateY(-1px); }
+
+  /* ── Results area ── */
+  .results-section {
+    position: relative;
+    z-index: 10;
+    padding: 0 3rem 4rem;
+  }
+
+  .results-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+
+  .results-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .results-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  /* Source blocks */
+  .source-block {
+    margin-bottom: 3rem;
+  }
+
+  .source-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .source-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .source-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .source-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.15s;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .source-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Wallpaper grid */
+  .wall-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .wall-card {
+    position: relative;
+    aspect-ratio: 16/9;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    background: var(--surface2);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .wall-card:hover {
+    transform: scale(1.02);
+    border-color: rgba(74,240,196,0.4);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    z-index: 2;
+  }
+
+  .wall-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s;
+  }
+
+  .wall-card img.loading { opacity: 0; }
+  .wall-card img.loaded { opacity: 1; }
+
+  .wall-card .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .wall-card:hover .overlay { opacity: 1; }
+
+  .wall-card .overlay a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 2px;
+    transition: opacity 0.15s;
+  }
+
+  .wall-card .overlay a:hover { opacity: 0.8; }
+
+  .btn-view {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+
+  .btn-dl {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+  }
+
+  .wall-tag {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.45rem;
+    border-radius: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .tag-video { background: rgba(255,107,107,0.8); color: #fff; }
+  .tag-4k { background: rgba(74,240,196,0.8); color: #000; }
+  .tag-uhd { background: rgba(255,209,102,0.8); color: #000; }
+
+  /* Loading skeleton */
+  .skeleton {
+    background: linear-gradient(90deg, var(--surface2) 25%, var(--surface) 50%, var(--surface2) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Empty / placeholder state */
+  .state-idle {
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  .state-idle .big-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.2;
+  }
+
+  .state-idle p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Suggestion chips */
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.8rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── Modal preview ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal-inner {
+    position: relative;
+    max-width: 85vw;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .modal-inner img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+
+  .modal-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    font-weight: 700;
+  }
+
+  .modal-btn:hover { opacity: 0.8; }
+
+  .modal-btn.primary { background: var(--accent); color: #000; border: none; }
+  .modal-btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+  .modal-close {
+    position: absolute;
+    top: -2.5rem;
+    right: 0;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+
+  .modal-close:hover { color: var(--text); }
+
+  .modal-info {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Tag Panel ── */
+  .tag-panel {
+    position: relative;
+    z-index: 10;
+    padding: 0 3rem 1.5rem;
+    max-width: 1100px;
+  }
+
+  .tag-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag-panel-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .tag-panel-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .tag-panel-toggle {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tag-panel-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+  .tag-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s;
+    max-height: 600px;
+    opacity: 1;
+  }
+
+  .tag-panel-body.collapsed {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .tag-category {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+
+  .tag-cat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 0.35rem;
+    min-width: 70px;
+    flex-shrink: 0;
+  }
+
+  .tag-cat-label.cat-anime   { color: #f472b6; }
+  .tag-cat-label.cat-nature  { color: #4ade80; }
+  .tag-cat-label.cat-scifi   { color: #60a5fa; }
+  .tag-cat-label.cat-game    { color: #fb923c; }
+  .tag-cat-label.cat-art     { color: #e879f9; }
+  .tag-cat-label.cat-city    { color: #facc15; }
+
+  .tag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag-chip {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .tag-chip:hover { transform: translateY(-1px); }
+  .tag-chip:active { transform: translateY(0); }
+
+  .tag-chip.cat-anime   { background: rgba(244,114,182,0.08); color: #f472b6; border-color: rgba(244,114,182,0.2); }
+  .tag-chip.cat-anime:hover { background: rgba(244,114,182,0.18); border-color: rgba(244,114,182,0.5); }
+
+  .tag-chip.cat-nature  { background: rgba(74,222,128,0.08); color: #4ade80; border-color: rgba(74,222,128,0.2); }
+  .tag-chip.cat-nature:hover { background: rgba(74,222,128,0.18); border-color: rgba(74,222,128,0.5); }
+
+  .tag-chip.cat-scifi   { background: rgba(96,165,250,0.08); color: #60a5fa; border-color: rgba(96,165,250,0.2); }
+  .tag-chip.cat-scifi:hover { background: rgba(96,165,250,0.18); border-color: rgba(96,165,250,0.5); }
+
+  .tag-chip.cat-game    { background: rgba(251,146,60,0.08); color: #fb923c; border-color: rgba(251,146,60,0.2); }
+  .tag-chip.cat-game:hover { background: rgba(251,146,60,0.18); border-color: rgba(251,146,60,0.5); }
+
+  .tag-chip.cat-art     { background: rgba(232,121,249,0.08); color: #e879f9; border-color: rgba(232,121,249,0.2); }
+  .tag-chip.cat-art:hover { background: rgba(232,121,249,0.18); border-color: rgba(232,121,249,0.5); }
+
+  .tag-chip.cat-city    { background: rgba(250,204,21,0.08); color: #facc15; border-color: rgba(250,204,21,0.2); }
+  .tag-chip.cat-city:hover { background: rgba(250,204,21,0.18); border-color: rgba(250,204,21,0.5); }
+
+  /* ── Unsplash API Note ── */
+  .api-note {
+    position: relative;
+    z-index: 10;
+    margin: 0 3rem 1.5rem;
+    padding: 0.75rem 1.25rem;
+    background: rgba(249,168,37,0.05);
+    border: 1px solid rgba(249,168,37,0.2);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    max-width: 750px;
+  }
+
+  .api-note label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #f9a825;
+    white-space: nowrap;
+  }
+
+  .api-note input {
+    flex: 1;
+    min-width: 200px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(249,168,37,0.3);
+    outline: none;
+    padding: 0.2rem 0.4rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .api-note input::placeholder { color: var(--muted); }
+
+  .api-note a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: #f9a825;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    opacity: 0.7;
+    white-space: nowrap;
+  }
+
+  .api-note a:hover { opacity: 1; }
+
+  /* English tip */
+  .eng-tip {
+    max-width: 750px;
+    margin-top: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .eng-tip-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,209,102,0.1);
+    color: var(--accent3);
+    border: 1px solid rgba(255,209,102,0.28);
+    padding: 0.22rem 0.55rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .eng-tip-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+  }
+
+  .eng-tip-text strong {
+    color: rgba(255,209,102,0.75);
+    font-weight: 400;
+  }
+
+  /* ── Language switcher ── */
+  .lang-switcher {
+    position: relative;
+    margin-left: auto;
+  }
+
+  .lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .lang-dropdown {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    min-width: 130px;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  .lang-dropdown.open { display: block; }
+
+  .lang-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.85rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+
+  .lang-option:hover { background: var(--surface2); color: var(--text); }
+  .lang-option.active { color: var(--accent); }
+  .lang-option .flag { font-size: 0.9rem; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(2rem);
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 0.7rem 1.5rem;
+    border-radius: 2px;
+    z-index: 2000;
+    opacity: 0;
+    transition: all 0.3s;
+    white-space: nowrap;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Wall<span>Find</span></div>
+  <div class="tagline" data-i18n="tagline">複数サイトの壁紙を一括検索</div>
+  <div class="lang-switcher">
+    <button class="lang-btn" onclick="toggleLangMenu()" id="langBtn">🌐 <span id="langLabel">JA</span></button>
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-option" onclick="setLang('ja')"><span class="flag">🇯🇵</span> 日本語</button>
+      <button class="lang-option" onclick="setLang('en')"><span class="flag">🇬🇧</span> English</button>
+      <button class="lang-option" onclick="setLang('ko')"><span class="flag">🇰🇷</span> 한국어</button>
+      <button class="lang-option" onclick="setLang('zh')"><span class="flag">🇨🇳</span> 中文</button>
+      <button class="lang-option" onclick="setLang('es')"><span class="flag">🇪🇸</span> Español</button>
+      <button class="lang-option" onclick="setLang('fr')"><span class="flag">🇫🇷</span> Français</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <h1 data-i18n-html="hero_h1">すべての<em>壁紙</em>を<br>ひとつの検索で</h1>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="e.g.  mountain 4k · neon city · anime landscape · space galaxy" autocomplete="off">
+    <button onclick="doSearch()" data-i18n="search_btn">検索</button>
+  </div>
+  <div class="eng-tip">
+    <span class="eng-tip-badge">💡 Tip</span>
+    <span class="eng-tip-text" data-i18n-html="tip_text">ほとんどのサイトは<strong>英語キーワード</strong>で検索するとより多くの壁紙がヒットします。<br>例：「山」→ <strong>mountain</strong>　「宇宙」→ <strong>space</strong>　「夜景」→ <strong>night cityscape</strong></span>
+  </div>
+</section>
+
+<div class="filters">
+  <span class="filter-label" data-i18n="filter_type">種類</span>
+  <div class="filter-group">
+    <button class="filter-btn active" data-type="all" onclick="setType(this,'all')" data-i18n="filter_all">すべて</button>
+    <button class="filter-btn" data-type="static" onclick="setType(this,'static')" data-i18n="filter_static">静止画</button>
+    <button class="filter-btn" data-type="video" onclick="setType(this,'video')" data-i18n="filter_video">動画・Live</button>
+  </div>
+
+  <div class="divider"></div>
+  <span class="filter-label" data-i18n="filter_res">解像度</span>
+  <div class="filter-group">
+    <button class="filter-btn active" data-res="all" onclick="setRes(this,'all')" data-i18n="filter_all">すべて</button>
+    <button class="filter-btn" data-res="1080p" onclick="setRes(this,'1080p')">1080p</button>
+    <button class="filter-btn" data-res="4k" onclick="setRes(this,'4k')">4K</button>
+    <button class="filter-btn" data-res="ultra" onclick="setRes(this,'ultra')">Ultra Wide</button>
+  </div>
+
+  <div class="divider"></div>
+  <span class="filter-label" data-i18n="filter_site">サイト</span>
+  <div class="filter-group" id="siteBadges">
+    <span class="site-badge" data-site="wallhaven" onclick="toggleSite('wallhaven')"><span class="dot"></span>Wallhaven</span>
+    <span class="site-badge" data-site="wallpaperbetter" onclick="toggleSite('wallpaperbetter')"><span class="dot"></span>WallpaperBetter</span>
+    <span class="site-badge" data-site="desktophut" onclick="toggleSite('desktophut')"><span class="dot"></span>DesktopHut</span>
+    <span class="site-badge" data-site="lively" onclick="toggleSite('lively')"><span class="dot"></span>Lively</span>
+    <span class="site-badge" data-site="unsplash" onclick="toggleSite('unsplash')"><span class="dot"></span>Unsplash</span>
+    <span class="site-badge" data-site="reddit" onclick="toggleSite('reddit')"><span class="dot"></span>Reddit</span>
+  </div>
+</div>
+
+<!-- ── Tag Panel ── -->
+<div class="tag-panel">
+  <div class="tag-panel-header">
+    <span class="tag-panel-title" data-i18n="tag_panel_title">🏷 タグから検索</span>
+    <div class="tag-panel-line"></div>
+    <button class="tag-panel-toggle" onclick="toggleTagPanel(this)" data-i18n="tag_collapse">折りたたむ ▲</button>
+  </div>
+  <div class="tag-panel-body" id="tagPanelBody">
+
+    <!-- Anime -->
+    <div class="tag-category">
+      <span class="tag-cat-label cat-anime">Anime</span>
+      <div class="tag-chips">
+        <span class="tag-chip cat-anime" onclick="tagSearch('Demon Slayer')">Demon Slayer</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Attack on Titan')">Attack on Titan</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Jujutsu Kaisen')">Jujutsu Kaisen</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('One Piece')">One Piece</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Naruto')">Naruto</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Dragon Ball')">Dragon Ball</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('My Hero Academia')">My Hero Academia</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Fullmetal Alchemist')">Fullmetal Alchemist</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Spy x Family')">Spy x Family</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Chainsaw Man')">Chainsaw Man</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Evangelion')">Evangelion</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Bleach')">Bleach</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Hunter x Hunter')">Hunter x Hunter</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Sword Art Online')">Sword Art Online</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Re:Zero')">Re:Zero</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Frieren')">Frieren</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Haikyuu')">Haikyuu</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Tokyo Revengers')">Tokyo Revengers</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Death Note')">Death Note</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Your Name')">Your Name</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Spirited Away')">Spirited Away</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Violet Evergarden')">Violet Evergarden</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Mushishi')">Mushishi</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Made in Abyss')">Made in Abyss</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Oshi no Ko')">Oshi no Ko</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Blue Lock')">Blue Lock</span>
+        <span class="tag-chip cat-anime" onclick="tagSearch('Vinland Saga')">Vinland Saga</span>
+      </div>
+    </div>
+
+    <!-- Game -->
+    <div class="tag-category">
+      <span class="tag-cat-label cat-game">Game</span>
+      <div class="tag-chips">
+        <span class="tag-chip cat-game" onclick="tagSearch('Elden Ring')">Elden Ring</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('The Legend of Zelda')">Zelda</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Cyberpunk 2077')">Cyberpunk 2077</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Ghost of Tsushima')">Ghost of Tsushima</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Genshin Impact')">Genshin Impact</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Final Fantasy')">Final Fantasy</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Minecraft')">Minecraft</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Halo')">Halo</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('God of War')">God of War</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Hollow Knight')">Hollow Knight</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Horizon Zero Dawn')">Horizon</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Dark Souls')">Dark Souls</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Persona 5')">Persona 5</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Monster Hunter')">Monster Hunter</span>
+        <span class="tag-chip cat-game" onclick="tagSearch('Valorant')">Valorant</span>
+      </div>
+    </div>
+
+    <!-- Sci-Fi / Space -->
+    <div class="tag-category">
+      <span class="tag-cat-label cat-scifi">Sci-Fi</span>
+      <div class="tag-chips">
+        <span class="tag-chip cat-scifi" onclick="tagSearch('space galaxy 4k')">Galaxy</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('nebula stars')">Nebula</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('cyberpunk city neon')">Cyberpunk</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('astronaut space')">Astronaut</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('sci-fi spacecraft')">Spacecraft</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('futuristic city')">Futuristic City</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('black hole universe')">Black Hole</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('neon synthwave')">Synthwave</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('robot mech')">Mech</span>
+        <span class="tag-chip cat-scifi" onclick="tagSearch('alien planet landscape')">Alien Planet</span>
+      </div>
+    </div>
+
+    <!-- Nature -->
+    <div class="tag-category">
+      <span class="tag-cat-label cat-nature">Nature</span>
+      <div class="tag-chips">
+        <span class="tag-chip cat-nature" onclick="tagSearch('mountain landscape 4k')">Mountain</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('forest fog morning')">Forest</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('ocean wave sunset')">Ocean</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('northern lights aurora')">Aurora</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('cherry blossom sakura')">Sakura</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('desert sand dunes')">Desert</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('waterfall jungle')">Waterfall</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('snow winter landscape')">Snow</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('volcano lava')">Volcano</span>
+        <span class="tag-chip cat-nature" onclick="tagSearch('milky way night sky')">Milky Way</span>
+      </div>
+    </div>
+
+    <!-- City -->
+    <div class="tag-category">
+      <span class="tag-cat-label cat-city">City</span>
+      <div class="tag-chips">
+        <span class="tag-chip cat-city" onclick="tagSearch('Tokyo night cityscape')">Tokyo</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('New York skyline')">New York</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('Hong Kong neon city')">Hong Kong</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('Paris city')">Paris</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('rainy city street night')">Rainy Street</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('rooftop cityview')">Rooftop</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('subway station')">Subway</span>
+        <span class="tag-chip cat-city" onclick="tagSearch('aerial city drone')">Aerial View</span>
+      </div>
+    </div>
+
+    <!-- Art -->
+    <div class="tag-category">
+      <span class="tag-cat-label cat-art">Art</span>
+      <div class="tag-chips">
+        <span class="tag-chip cat-art" onclick="tagSearch('minimal dark wallpaper')">Minimal Dark</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('abstract fluid art')">Abstract</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('lo-fi aesthetic')">Lo-Fi</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('vaporwave aesthetic')">Vaporwave</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('digital art illustration')">Digital Art</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('geometric pattern')">Geometric</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('gradient color art')">Gradient</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('surreal dreamscape')">Surreal</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('pixel art')">Pixel Art</span>
+        <span class="tag-chip cat-art" onclick="tagSearch('dark fantasy art')">Dark Fantasy</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="api-note">
+  <label data-i18n="unsplash_label">🔑 Unsplash API Key (任意)</label>
+  <input type="text" id="unsplashKey" data-i18n-placeholder="unsplash_placeholder" placeholder="APIキーを入力すると画像を直接表示できます" oninput="window.UNSPLASH_KEY=this.value.trim()">
+  <a href="https://unsplash.com/developers" target="_blank" data-i18n="unsplash_get">無料取得 →</a>
+</div>
+
+<section class="results-section">
+  <main id="resultsArea" aria-label="検索結果" aria-live="polite">
+    <div class="state-idle">
+      <div class="big-icon">🖼</div>
+      <p data-i18n="idle_text">キーワードを入力して壁紙を検索しましょう</p>
+      <div class="suggestions" role="list" aria-label="検索候補">
+        <span class="chip" role="listitem" onclick="quickSearch('mountain 4k')">Mountain 4K</span>
+        <span class="chip" role="listitem" onclick="quickSearch('neon city night')">Neon City</span>
+        <span class="chip" role="listitem" onclick="quickSearch('anime landscape')">Anime</span>
+        <span class="chip" role="listitem" onclick="quickSearch('space galaxy')">Space</span>
+        <span class="chip" role="listitem" onclick="quickSearch('minimal dark')">Minimal Dark</span>
+        <span class="chip" role="listitem" onclick="quickSearch('forest morning')">Forest</span>
+        <span class="chip" role="listitem" onclick="quickSearch('cyberpunk')">Cyberpunk</span>
+        <span class="chip" role="listitem" onclick="quickSearch('ocean wave')">Ocean</span>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <img id="modalImg" src="" alt="">
+    <div class="modal-info" id="modalInfo"></div>
+    <div class="modal-actions">
+      <a class="modal-btn primary" id="modalViewBtn" href="#" target="_blank" data-i18n="modal_view">サイトで見る</a>
+      <a class="modal-btn secondary" id="modalDlBtn" href="#" target="_blank" download data-i18n="modal_dl">ダウンロード</a>
+    </div>
+  </div>
+</div>
+
+<!-- SEO補助フッター：Googleが読むテキストコンテンツ -->
+<footer style="position:relative;z-index:10;padding:3rem 3rem 2rem;border-top:1px solid var(--border);margin-top:2rem;">
+  <div style="max-width:900px;">
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;">WallFindについて</h2>
+    <p style="font-size:0.78rem;color:var(--muted);line-height:1.9;max-width:700px;">
+      WallFindは、<strong style="color:var(--text)">Wallhaven・Unsplash・Reddit・WallpaperBetter・DesktopHut・Lively Wallpaper</strong>
+      など複数の壁紙サイトをまとめて横断検索できる無料ツールです。
+      デスクトップ壁紙・スマホ壁紙・ライブ壁紙（動く壁紙）まで、
+      <strong style="color:var(--text)">4K・1080p・ウルトラワイド</strong>など解像度別に絞り込んで検索できます。
+      アニメ（鬼滅の刃・進撃の巨人・呪術廻戦など）、ゲーム（エルデンリング・原神など）、
+      自然・都市・サイバーパンク・ミニマルデザインなど豊富なタグから即座に検索可能。
+      日本語・英語・韓国語・中国語・スペイン語・フランス語に対応しています。
+    </p>
+    <div style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:0.5rem;">
+      <!-- SEO: 人気キーワードリンク -->
+      <a href="?q=anime+wallpaper+4k" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">アニメ壁紙 4K</a>
+      <a href="?q=space+galaxy+wallpaper" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">宇宙壁紙</a>
+      <a href="?q=cyberpunk+neon" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">サイバーパンク壁紙</a>
+      <a href="?q=mountain+landscape+4k" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">山の壁紙 4K</a>
+      <a href="?q=minimal+dark+wallpaper" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">ダーク壁紙</a>
+      <a href="?q=live+wallpaper+animated" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">ライブ壁紙（動く壁紙）</a>
+      <a href="?q=Demon+Slayer+wallpaper" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">鬼滅の刃 壁紙</a>
+      <a href="?q=ultrawide+wallpaper" style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:0.25rem 0.6rem;border-radius:2px;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">ウルトラワイド壁紙</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ════════════════════════════════════════
+// ── i18n System ──
+// ════════════════════════════════════════
+const TRANSLATIONS = {
+  ja: {
+    page_title:       'WallFind — 壁紙一括検索',
+    tagline:          '複数サイトの壁紙を一括検索',
+    hero_h1:          'すべての<em>壁紙</em>を<br>ひとつの検索で',
+    search_btn:       '検索',
+    tip_text:         'ほとんどのサイトは<strong>英語キーワード</strong>で検索するとより多くの壁紙がヒットします。<br>例：「山」→ <strong>mountain</strong>　「宇宙」→ <strong>space</strong>　「夜景」→ <strong>night cityscape</strong>',
+    filter_type:      '種類',
+    filter_all:       'すべて',
+    filter_static:    '静止画',
+    filter_video:     '動画・Live',
+    filter_res:       '解像度',
+    filter_site:      'サイト',
+    tag_panel_title:  '🏷 タグから検索',
+    tag_collapse:     '折りたたむ ▲',
+    tag_expand:       '展開する ▼',
+    unsplash_label:   '🔑 Unsplash API Key (任意)',
+    unsplash_placeholder: 'APIキーを入力すると画像を直接表示できます',
+    unsplash_get:     '無料取得 →',
+    idle_text:        'キーワードを入力して壁紙を検索しましょう',
+    modal_view:       'サイトで見る',
+    modal_dl:         'ダウンロード',
+    results_title:    '検索結果',
+    loading:          '読み込み中...',
+    results_count:    (n) => `${n} 件以上`,
+    open_site:        '→ サイトで開く',
+    no_results:       '結果なし',
+    open_btn:         '開く →',
+    search_on:        (q, site) => `"${q}" を ${site} で検索`,
+    direct_on_site:   'サイトで直接確認する',
+    lang_label:       'JA',
+  },
+  en: {
+    page_title:       'WallFind — Multi-site Wallpaper Search',
+    tagline:          'Search wallpapers across multiple sites',
+    hero_h1:          'Find all<br><em>wallpapers</em><br>in one search',
+    search_btn:       'Search',
+    tip_text:         '<strong>English keywords</strong> return more results on most sites.<br>e.g. "mountain" · "space" · "night cityscape"',
+    filter_type:      'Type',
+    filter_all:       'All',
+    filter_static:    'Static',
+    filter_video:     'Video · Live',
+    filter_res:       'Resolution',
+    filter_site:      'Sites',
+    tag_panel_title:  '🏷 Search by Tag',
+    tag_collapse:     'Collapse ▲',
+    tag_expand:       'Expand ▼',
+    unsplash_label:   '🔑 Unsplash API Key (optional)',
+    unsplash_placeholder: 'Enter API key to show images directly',
+    unsplash_get:     'Get free key →',
+    idle_text:        'Enter a keyword to search for wallpapers',
+    modal_view:       'View on site',
+    modal_dl:         'Download',
+    results_title:    'Results',
+    loading:          'Loading...',
+    results_count:    (n) => `${n}+ results`,
+    open_site:        '→ Open site',
+    no_results:       'No results',
+    open_btn:         'Open →',
+    search_on:        (q, site) => `Search "${q}" on ${site}`,
+    direct_on_site:   'View directly on site',
+    lang_label:       'EN',
+  },
+  ko: {
+    page_title:       'WallFind — 멀티사이트 배경화면 검색',
+    tagline:          '여러 사이트의 배경화면을 한 번에 검색',
+    hero_h1:          '모든 <em>배경화면</em>을<br>한 번에 검색',
+    search_btn:       '검색',
+    tip_text:         '대부분의 사이트는 <strong>영어 키워드</strong>로 검색하면 더 많은 결과가 나옵니다.<br>예: 산 → <strong>mountain</strong>　우주 → <strong>space</strong>　야경 → <strong>night cityscape</strong>',
+    filter_type:      '종류',
+    filter_all:       '전체',
+    filter_static:    '정지 이미지',
+    filter_video:     '동영상·Live',
+    filter_res:       '해상도',
+    filter_site:      '사이트',
+    tag_panel_title:  '🏷 태그로 검색',
+    tag_collapse:     '접기 ▲',
+    tag_expand:       '펼치기 ▼',
+    unsplash_label:   '🔑 Unsplash API Key (선택)',
+    unsplash_placeholder: 'API 키를 입력하면 이미지를 직접 표시할 수 있습니다',
+    unsplash_get:     '무료 키 받기 →',
+    idle_text:        '키워드를 입력하여 배경화면을 검색해보세요',
+    modal_view:       '사이트에서 보기',
+    modal_dl:         '다운로드',
+    results_title:    '검색 결과',
+    loading:          '불러오는 중...',
+    results_count:    (n) => `${n}개 이상`,
+    open_site:        '→ 사이트 열기',
+    no_results:       '결과 없음',
+    open_btn:         '열기 →',
+    search_on:        (q, site) => `${site}에서 "${q}" 검색`,
+    direct_on_site:   '사이트에서 직접 확인',
+    lang_label:       'KO',
+  },
+  zh: {
+    page_title:       'WallFind — 多站壁纸搜索',
+    tagline:          '一次搜索多个网站的壁纸',
+    hero_h1:          '一次搜索<br>所有<em>壁纸</em>',
+    search_btn:       '搜索',
+    tip_text:         '大多数网站使用<strong>英文关键词</strong>可以获得更多结果。<br>例：山 → <strong>mountain</strong>　宇宙 → <strong>space</strong>　夜景 → <strong>night cityscape</strong>',
+    filter_type:      '类型',
+    filter_all:       '全部',
+    filter_static:    '静态图',
+    filter_video:     '动态·Live',
+    filter_res:       '分辨率',
+    filter_site:      '站点',
+    tag_panel_title:  '🏷 标签搜索',
+    tag_collapse:     '收起 ▲',
+    tag_expand:       '展开 ▼',
+    unsplash_label:   '🔑 Unsplash API Key（可选）',
+    unsplash_placeholder: '输入 API Key 可直接显示图片',
+    unsplash_get:     '免费获取 →',
+    idle_text:        '输入关键词搜索壁纸',
+    modal_view:       '在网站查看',
+    modal_dl:         '下载',
+    results_title:    '搜索结果',
+    loading:          '加载中...',
+    results_count:    (n) => `${n}+ 个结果`,
+    open_site:        '→ 打开网站',
+    no_results:       '无结果',
+    open_btn:         '打开 →',
+    search_on:        (q, site) => `在 ${site} 搜索"${q}"`,
+    direct_on_site:   '在网站直接查看',
+    lang_label:       'ZH',
+  },
+  es: {
+    page_title:       'WallFind — Búsqueda de Fondos',
+    tagline:          'Busca fondos de pantalla en múltiples sitios',
+    hero_h1:          'Encuentra todos los<br><em>fondos</em><br>en una búsqueda',
+    search_btn:       'Buscar',
+    tip_text:         'La mayoría de sitios devuelven más resultados con <strong>palabras clave en inglés</strong>.<br>Ej: montaña → <strong>mountain</strong>　espacio → <strong>space</strong>　ciudad nocturna → <strong>night cityscape</strong>',
+    filter_type:      'Tipo',
+    filter_all:       'Todo',
+    filter_static:    'Estático',
+    filter_video:     'Video · Live',
+    filter_res:       'Resolución',
+    filter_site:      'Sitios',
+    tag_panel_title:  '🏷 Buscar por Etiqueta',
+    tag_collapse:     'Colapsar ▲',
+    tag_expand:       'Expandir ▼',
+    unsplash_label:   '🔑 Unsplash API Key (opcional)',
+    unsplash_placeholder: 'Introduce tu API key para ver imágenes directamente',
+    unsplash_get:     'Obtener gratis →',
+    idle_text:        'Introduce una palabra clave para buscar fondos de pantalla',
+    modal_view:       'Ver en el sitio',
+    modal_dl:         'Descargar',
+    results_title:    'Resultados',
+    loading:          'Cargando...',
+    results_count:    (n) => `${n}+ resultados`,
+    open_site:        '→ Abrir sitio',
+    no_results:       'Sin resultados',
+    open_btn:         'Abrir →',
+    search_on:        (q, site) => `Buscar "${q}" en ${site}`,
+    direct_on_site:   'Ver directamente en el sitio',
+    lang_label:       'ES',
+  },
+  fr: {
+    page_title:       'WallFind — Recherche de Fonds d\'Écran',
+    tagline:          'Recherche de fonds d\'écran sur plusieurs sites',
+    hero_h1:          'Trouvez tous les<br><em>fonds d\'écran</em><br>en une recherche',
+    search_btn:       'Rechercher',
+    tip_text:         'La plupart des sites retournent plus de résultats avec des <strong>mots-clés en anglais</strong>.<br>Ex : montagne → <strong>mountain</strong>　espace → <strong>space</strong>　ville la nuit → <strong>night cityscape</strong>',
+    filter_type:      'Type',
+    filter_all:       'Tout',
+    filter_static:    'Statique',
+    filter_video:     'Vidéo · Live',
+    filter_res:       'Résolution',
+    filter_site:      'Sites',
+    tag_panel_title:  '🏷 Rechercher par Tag',
+    tag_collapse:     'Réduire ▲',
+    tag_expand:       'Développer ▼',
+    unsplash_label:   '🔑 Unsplash API Key (facultatif)',
+    unsplash_placeholder: 'Entrez la clé API pour afficher les images directement',
+    unsplash_get:     'Obtenir gratuitement →',
+    idle_text:        'Entrez un mot-clé pour rechercher des fonds d\'écran',
+    modal_view:       'Voir sur le site',
+    modal_dl:         'Télécharger',
+    results_title:    'Résultats',
+    loading:          'Chargement...',
+    results_count:    (n) => `${n}+ résultats`,
+    open_site:        '→ Ouvrir le site',
+    no_results:       'Aucun résultat',
+    open_btn:         'Ouvrir →',
+    search_on:        (q, site) => `Rechercher "${q}" sur ${site}`,
+    direct_on_site:   'Voir directement sur le site',
+    lang_label:       'FR',
+  },
+};
+
+// ── 言語検出 & 適用 ──
+let currentLang = 'ja';
+
+function detectLang() {
+  const saved = localStorage.getItem('wallfind_lang');
+  if (saved && TRANSLATIONS[saved]) return saved;
+  const nav = (navigator.language || navigator.userLanguage || 'ja').toLowerCase();
+  if (nav.startsWith('ja')) return 'ja';
+  if (nav.startsWith('ko')) return 'ko';
+  if (nav.startsWith('zh')) return 'zh';
+  if (nav.startsWith('es')) return 'es';
+  if (nav.startsWith('fr')) return 'fr';
+  return 'en';
+}
+
+function T(key, ...args) {
+  const t = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
+  const val = t[key] ?? TRANSLATIONS['en'][key] ?? key;
+  return typeof val === 'function' ? val(...args) : val;
+}
+
+function applyTranslations() {
+  const lang = currentLang;
+  document.documentElement.lang = lang;
+  document.title = T('page_title');
+
+  // textContent
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = T(el.dataset.i18n);
+  });
+
+  // innerHTML (for elements with <em>, <strong>, <br>)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = T(el.dataset.i18nHtml);
+  });
+
+  // placeholder
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = T(el.dataset.i18nPlaceholder);
+  });
+
+  // 言語ボタンのラベル更新
+  document.getElementById('langLabel').textContent = T('lang_label');
+
+  // アクティブな言語オプションをハイライト
+  document.querySelectorAll('.lang-option').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('onclick') === `setLang('${lang}')`);
+  });
+}
+
+function setLang(lang) {
+  if (!TRANSLATIONS[lang]) return;
+  currentLang = lang;
+  localStorage.setItem('wallfind_lang', lang);
+  applyTranslations();
+  // タグパネルのトグルボタンも再適用
+  const toggleBtn = document.querySelector('.tag-panel-toggle');
+  if (toggleBtn) {
+    const isCollapsed = document.getElementById('tagPanelBody')?.classList.contains('collapsed');
+    toggleBtn.textContent = T(isCollapsed ? 'tag_expand' : 'tag_collapse');
+  }
+  document.getElementById('langDropdown').classList.remove('open');
+}
+
+function toggleLangMenu() {
+  document.getElementById('langDropdown').classList.toggle('open');
+}
+
+// メニュー外クリックで閉じる
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.lang-switcher')) {
+    document.getElementById('langDropdown').classList.remove('open');
+  }
+});
+
+// ════════════════════════════════════════
+const state = {
+  type: 'all',
+  res: 'all',
+  sites: { wallhaven: true, wallpaperbetter: true, desktophut: true, lively: true, unsplash: true, reddit: true },
+  lastQuery: ''
+};
+
+// ── Site configs ──
+const SITES = {
+  wallhaven: {
+    name: 'Wallhaven',
+    color: '#7dd3fc',
+    buildSearchUrl: (q, res) => {
+      const params = new URLSearchParams({ q, categories: '111', purity: '100' });
+      if (res === '4k') params.set('atleast', '3840x2160');
+      else if (res === '1080p') params.set('atleast', '1920x1080');
+      else if (res === 'ultra') params.set('ratios', '32x9,21x9');
+      return `https://wallhaven.cc/search?${params}`;
+    },
+    // Use Wallhaven API
+    fetchResults: async (q, res, type) => {
+      const params = new URLSearchParams({
+        q,
+        categories: '111',
+        purity: '100',
+        sorting: 'relevance',
+        page: '1'
+      });
+      if (res === '4k') params.set('atleast', '3840x2160');
+      else if (res === '1080p') params.set('atleast', '1920x1080');
+      else if (res === 'ultra') params.set('ratios', '32x9,21x9');
+
+      const fallback = [{
+        isLink: true, site: 'wallhaven',
+        title: T('search_on', q, 'Wallhaven'),
+        desc: T('direct_on_site'),
+        url: `https://wallhaven.cc/search?q=${encodeURIComponent(q)}&categories=111&purity=100&sorting=relevance`
+      }];
+
+      try {
+        const r = await fetch(`https://wallhaven.cc/api/v1/search?${params}`, {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!r.ok) return fallback;
+        const data = await r.json();
+        const items = (data.data || []).slice(0, 12);
+        if (items.length === 0) return fallback;
+        return items.map(w => ({
+          thumb: w.thumbs?.small || w.thumbs?.large || w.thumbs?.original,
+          full: w.path,
+          page: w.url,
+          download: w.path,
+          site: 'wallhaven',
+          res: `${w.dimension_x}×${w.dimension_y}`,
+          tag: w.dimension_x >= 3840 ? '4K' : null
+        }));
+      } catch(e) {
+        return fallback;
+      }
+    }
+  },
+  wallpaperbetter: {
+    name: 'WallpaperBetter',
+    color: '#c4b5fd',
+    buildSearchUrl: (q) => `https://www.wallpaperbetter.com/en/search?q=${encodeURIComponent(q)}`,
+    fetchResults: async (q, res, type) => {
+      return [
+        {
+          isLink: true, site: 'wallpaperbetter',
+          title: T('search_on', q, 'WallpaperBetter'),
+          desc: T('direct_on_site'),
+          url: `https://www.wallpaperbetter.com/en/search?q=${encodeURIComponent(q)}`
+        },
+        {
+          isLink: true, site: 'wallpaperbetter',
+          title: 'WallpaperBetter Top',
+          desc: 'Trending wallpapers',
+          url: `https://www.wallpaperbetter.com/en/`
+        }
+      ];
+    }
+  },
+  desktophut: {
+    name: 'DesktopHut',
+    color: '#fda4af',
+    buildSearchUrl: (q) => `https://www.desktophut.com/?s=${encodeURIComponent(q)}`,
+    fetchResults: async (q, res, type) => {
+      return [
+        {
+          isLink: true, site: 'desktophut',
+          title: T('search_on', q, 'DesktopHut'),
+          desc: 'Live wallpapers & videos',
+          url: `https://www.desktophut.com/?s=${encodeURIComponent(q)}`
+        },
+        {
+          isLink: true, site: 'desktophut',
+          title: 'DesktopHut Top',
+          desc: 'Animated wallpapers',
+          url: `https://www.desktophut.com/`
+        }
+      ];
+    }
+  },
+  lively: {
+    name: 'Lively Wallpaper',
+    color: '#86efac',
+    buildSearchUrl: () => `https://store.steampowered.com/app/1661685/Lively_Wallpaper/`,
+    fetchResults: async (q, res, type) => {
+      return [
+        {
+          isLink: true, site: 'lively',
+          title: 'Get Lively Wallpaper',
+          desc: 'Free live wallpaper app (Steam)',
+          url: `https://store.steampowered.com/app/1661685/Lively_Wallpaper/`
+        },
+        {
+          isLink: true, site: 'lively',
+          title: T('search_on', q, 'YouTube'),
+          desc: 'Search live wallpaper videos',
+          url: `https://www.youtube.com/results?search_query=${encodeURIComponent(q + ' live wallpaper')}`
+        },
+        {
+          isLink: true, site: 'lively',
+          title: 'GitHub — Source & Wallpapers',
+          desc: 'Official repo & community',
+          url: `https://github.com/rocksdanister/lively`
+        }
+      ];
+    }
+  },
+  unsplash: {
+    name: 'Unsplash',
+    color: '#f9a825',
+    buildSearchUrl: (q) => `https://unsplash.com/s/photos/${encodeURIComponent(q)}`,
+    fetchResults: async (q, res, type) => {
+      try {
+        // Unsplash APIキーが設定されていれば使用、なければリンクカード
+        const apiKey = window.UNSPLASH_KEY || '';
+        if (apiKey) {
+          const r = await fetch(`https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=12&orientation=landscape`, {
+            headers: { 'Authorization': `Client-ID ${apiKey}` }
+          });
+          const data = await r.json();
+          return (data.results || []).map(p => ({
+            thumb: p.urls.small,
+            full: p.urls.full,
+            page: p.links.html,
+            download: p.links.download,
+            site: 'unsplash',
+            res: `${p.width}×${p.height}`,
+            tag: p.width >= 3840 ? '4K' : null
+          }));
+        } else {
+          // No API key: show preview image + link cards
+          const previewUrl = `https://source.unsplash.com/featured/800x450/?${encodeURIComponent(q)},wallpaper`;
+          return [
+            {
+              thumb: previewUrl,
+              full: previewUrl,
+              page: `https://unsplash.com/s/photos/${encodeURIComponent(q)}`,
+              download: previewUrl,
+              site: 'unsplash',
+              res: null,
+              tag: null,
+              isPreview: true
+            },
+            {
+              isLink: true, site: 'unsplash',
+              title: T('search_on', q, 'Unsplash'),
+              desc: 'Free high-quality photos',
+              url: `https://unsplash.com/s/photos/${encodeURIComponent(q)}`
+            },
+            {
+              isLink: true, site: 'unsplash',
+              title: 'Unsplash Wallpaper Collection',
+              desc: 'Curated wallpapers',
+              url: `https://unsplash.com/t/wallpapers`
+            }
+          ];
+        }
+      } catch(e) {
+        return [{
+          isLink: true, site: 'unsplash',
+          title: T('search_on', q, 'Unsplash'),
+          desc: 'Free high-quality photos',
+          url: `https://unsplash.com/s/photos/${encodeURIComponent(q)}`
+        }];
+      }
+    }
+  },
+  reddit: {
+    name: 'Reddit',
+    color: '#ff7043',
+    buildSearchUrl: (q) => `https://www.reddit.com/r/wallpaper+wallpapers/search/?q=${encodeURIComponent(q)}&sort=top`,
+    fetchResults: async (q, res, type) => {
+      try {
+        const url = `https://www.reddit.com/r/wallpaper+wallpapers/search.json?q=${encodeURIComponent(q)}&sort=top&t=all&limit=12&restrict_sr=1`;
+        const r = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        const data = await r.json();
+        const posts = (data?.data?.children || []).map(c => c.data).filter(p =>
+          p.post_hint === 'image' && p.preview?.images?.length > 0
+        );
+        if (posts.length === 0) {
+          return [{
+            isLink: true, site: 'reddit',
+            title: T('search_on', q, 'Reddit'),
+            desc: 'r/wallpaper • r/wallpapers',
+            url: `https://www.reddit.com/r/wallpaper+wallpapers/search/?q=${encodeURIComponent(q)}&sort=top`
+          }];
+        }
+        return posts.slice(0, 12).map(p => {
+          const preview = p.preview.images[0];
+          // Redditのプレビュー画像URLはHTMLエンティティがエスケープされている
+          const thumbUrl = (preview.resolutions?.[2]?.url || preview.source?.url || '').replace(/&amp;/g, '&');
+          const fullUrl = (preview.source?.url || '').replace(/&amp;/g, '&');
+          return {
+            thumb: thumbUrl,
+            full: fullUrl,
+            page: `https://www.reddit.com${p.permalink}`,
+            download: fullUrl,
+            site: 'reddit',
+            res: preview.source ? `${preview.source.width}×${preview.source.height}` : null,
+            tag: preview.source?.width >= 3840 ? '4K' : null
+          };
+        });
+      } catch(e) {
+        return [{
+          isLink: true, site: 'reddit',
+          title: T('search_on', q, 'Reddit'),
+          desc: 'r/wallpaper • r/wallpapers',
+          url: `https://www.reddit.com/r/wallpaper+wallpapers/search/?q=${encodeURIComponent(q)}&sort=top`
+        }];
+      }
+    }
+  }
+};
+
+// ── Filter controls ──
+function setType(el, val) {
+  state.type = val;
+  document.querySelectorAll('[data-type]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setRes(el, val) {
+  state.res = val;
+  document.querySelectorAll('[data-res]').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleSite(key) {
+  state.sites[key] = !state.sites[key];
+  const badge = document.querySelector(`[data-site="${key}"]`);
+  badge.classList.toggle('disabled', !state.sites[key]);
+}
+
+// ── Quick search from chips ──
+function quickSearch(q) {
+  document.getElementById('searchInput').value = q;
+  doSearch();
+}
+
+// ── Tag search ──
+function tagSearch(q) {
+  document.getElementById('searchInput').value = q;
+  doSearch();
+  // スムーズに結果へスクロール
+  setTimeout(() => {
+    document.querySelector('.results-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 200);
+}
+
+// ── Tag panel toggle ──
+function toggleTagPanel(btn) {
+  const body = document.getElementById('tagPanelBody');
+  const collapsed = body.classList.toggle('collapsed');
+  btn.textContent = collapsed ? '展開する ▼' : '折りたたむ ▲';
+}
+
+// ── Main search ──
+async function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  state.lastQuery = q;
+
+  // URLにクエリパラメータを反映（ブラウザ履歴・シェア対応）
+  const url = new URL(window.location);
+  url.searchParams.set('q', q);
+  window.history.replaceState({}, '', url);
+
+  const area = document.getElementById('resultsArea');
+  area.innerHTML = '';
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'results-header';
+  hdr.innerHTML = `<span class="results-title">${T('results_title')}</span><span class="results-count" id="totalCount">${T('loading')}</span>`;
+  area.appendChild(hdr);
+
+  let total = 0;
+  const activeSites = Object.keys(state.sites).filter(k => state.sites[k]);
+
+  for (const key of activeSites) {
+    const site = SITES[key];
+    // Create source block with skeleton
+    const block = document.createElement('div');
+    block.className = 'source-block';
+    block.innerHTML = `
+      <div class="source-header">
+        <span class="source-name" style="color:${site.color}">${site.name}</span>
+        <div class="source-line"></div>
+        <a class="source-link" href="${site.buildSearchUrl(q, state.res, state.type)}" target="_blank">${T('open_site')}</a>
+      </div>
+      <div class="wall-grid" id="grid-${key}">
+        ${Array(6).fill(0).map(() => `<div class="wall-card skeleton"></div>`).join('')}
+      </div>
+    `;
+    area.appendChild(block);
+
+    // Fetch async
+    (async () => {
+      const results = await site.fetchResults(q, state.res, state.type);
+      const grid = document.getElementById(`grid-${key}`);
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      if (!results || results.length === 0) {
+        grid.innerHTML = `<p style="color:var(--muted);font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;padding:1rem 0">${T('no_results')}</p>`;
+        return;
+      }
+
+      results.forEach(item => {
+        if (item.isLink) {
+          const card = document.createElement('a');
+          card.href = item.url;
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+          card.className = 'wall-card';
+          card.style.cssText = `background:var(--surface2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;padding:1.5rem;text-decoration:none;`;
+          card.innerHTML = `
+            <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:${SITES[item.site].color}">${SITES[item.site].name}</span>
+            <span style="font-size:0.82rem;color:var(--text);text-align:center;line-height:1.5;font-weight:400">${item.title}</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.55rem;color:var(--muted);text-align:center;letter-spacing:0.05em">${item.desc || ''}</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.4rem;color:${SITES[item.site].color};border:1px solid ${SITES[item.site].color}33;padding:0.3rem 0.8rem;border-radius:2px;">${T('open_btn')}</span>
+          `;
+          grid.appendChild(card);
+          total++;
+        } else {
+          const card = document.createElement('div');
+          card.className = 'wall-card';
+          card.innerHTML = `
+            <img src="${item.thumb}" alt="" loading="lazy" class="loading" onload="this.classList.replace('loading','loaded')" onerror="this.parentElement.style.display='none'">
+            ${item.tag ? `<span class="wall-tag tag-${item.tag.toLowerCase()}">${item.tag}</span>` : ''}
+            <div class="overlay">
+              <a class="btn-view" href="${item.page}" target="_blank">${T('modal_view')}</a>
+              <a class="btn-dl" href="${item.download}" target="_blank" download>${T('modal_dl')}</a>
+            </div>
+          `;
+          card.querySelector('img').addEventListener('click', () => openModal(item));
+          grid.appendChild(card);
+          total++;
+        }
+      });
+
+      document.getElementById('totalCount').textContent = T('results_count', total);
+    })();
+  }
+}
+
+// Enter key
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doSearch();
+});
+
+// ── Modal ──
+function openModal(item) {
+  const modal = document.getElementById('modal');
+  document.getElementById('modalImg').src = item.full || item.thumb;
+  document.getElementById('modalInfo').textContent = item.res ? `${item.site.toUpperCase()} — ${item.res}` : item.site.toUpperCase();
+  document.getElementById('modalViewBtn').href = item.page;
+  document.getElementById('modalDlBtn').href = item.download || item.full || item.thumb;
+  modal.classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal') || e.target.classList.contains('modal-close')) {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modalImg').src = '';
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Init: 言語検出 & 適用 ──
+currentLang = detectLang();
+applyTranslations();
+
+// ── URLクエリパラメータから検索を自動実行 ──
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if (q) {
+    document.getElementById('searchInput').value = q;
+    doSearch();
+  }
+})();
+</script>
+</body>
+</html>
